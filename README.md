@@ -1,5 +1,5 @@
 # cs160Zombulator
  
-** Zombie Survival Simulator **
+**Zombie Survival Simulator**
  
 -by Michael Winberry
