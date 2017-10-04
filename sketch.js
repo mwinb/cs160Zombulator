@@ -1,9 +1,12 @@
-var x = 0;
+//Zombulator by michael Winberry
+
 function setup() {
-    background(100);
+    createCanvas(800,800);
 }
 
 function draw() {
-    circle(x, height/2,20,20);
-    x = x + 1
+    fill("seagreen")
+    ellipse(200,50,80,80);
+    fill("red")
+    ellipse(200,200,80,80);
 }
