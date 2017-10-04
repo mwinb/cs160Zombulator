@@ -9,12 +9,16 @@ function setup() {
 
 function draw() {
     fill(random(255),random(255),random(255));
-    ellipse(x/2,y,50,50);
+    ellipse(x,y,50,50);
         
     if (y < 0) {
         y = height;
+        x = x - 50;
     } else {
         y = y - 2;
+    };
+    if (x < 0) {
+        x = width;
     };
 
 };
