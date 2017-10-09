@@ -34,5 +34,5 @@ function draw() {
         sw = random(15,25);
     } else {
         zombieX = zombieX + 4;
-    };
+    }
 };
