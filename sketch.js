@@ -1,38 +1,60 @@
 //Zombulator by michael Winberry
 
-var zombieX,zombieY;
-var r,b,g;
-var sr,sb,sg;
+var zombieY = 100;
+var zombieX = 0;
+var humanY = 100;
+var humanX = 500;
+var zombieColor;
+var backgroundColor;
+var zombieV = 10;
+var zombieV2 = 8;
+var humanV = -13;
+var humanV2 = -11;
 
- 
+
 function setup() {
-    createCanvas(800,800);
-    zombieX = width;
-    r = 135
-   b = 232;
-   g = 175;
-   sr = random(255);
-   sb = random(255);
-   sg = random(255);
-   sw = random(15,25);
-};
+    createCanvas(windowWidth,windowHeight);
+    backgroundColor = color(114, 168, 255);
+    zombieColor = color(242,255,0);
+    humanColor = color(random(255), random(255), random(255));
+}
 
 function draw() {
-    background(255,255,255);
-    stroke(sr,sb,sg);
-    strokeWeight(sw);
-    fill(r,b,g);
-    ellipse(zombieX,height/2,80,80);
-    if (zombieX > width) {
-        zombieX = 0;
-        r = random(255);
-        g = random(255);
-        b = random(255);
-        sr = random(255);
-        sb = random(255);
-        sg = random(255);
-        sw = random(15,25);
-    } else {
-        zombieX = zombieX + 4;
+    background(backgroundColor);
+    noStroke();
+    fill(zombieColor);
+    ellipse(zombieX, zombieY, 80, 80);
+    noStroke();
+    fill(humanColor);
+    ellipse(humanX, humanY, 80, 80);
+    
+    zombieY += (zombieV);
+    zombieX += (zombieV2);
+
+    humanX += (humanV2);
+    humanY += (humanV);
+ 
+    if ( zombieY > windowHeight || zombieY < 0 ) {
+        zombieV = -zombieV
     }
-};
+    
+    if ( humanY > windowHeight || humanY < 0 ) {
+        humanV = -(humanV );
+    }
+
+    if ( zombieX > windowWidth || zombieX < 0 ) {
+        zombieV2 = -(zombieV2);
+    }
+    
+    if ( humanX > windowWidth || humanX < 0 ) {
+        humanV2 = -(humanV2);
+    }
+ 
+    if ( dist(humanX,humanY,zombieX,zombieY) <= 45 ) {
+        zombieV = -zombieV;
+        zombieV2 = -zombieV2;
+        humanV = -humanV;
+        humanV2 = -humanV2;
+    }
+    
+}
