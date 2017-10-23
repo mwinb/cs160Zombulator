@@ -28,27 +28,20 @@ function setup() {
 function draw() {
   background(backgroundColor);
   noStroke();
-  
   drawZombies();
   drawHumans();
 }
 
 function initializeZombies() {
   for (var i = 0; i < NUM_ZOMBIES; ++i) {
-    zombieXs.push(random( 0, windowWidth));
-    zombieYs.push(random(0,200));
-    zombieSizes.push(random(MIN_SIZE, MAX_SIZE));
-    zombieColors.push(color(random(50,255), random(50,255), random(50, 255), 150));
+    initializeZombie(i);
   }
 }
 
 function initializeHumans() {
   // raaaawwwwwrrr!
   for (var i = 0; i < NUM_HUMANS; ++i) {
-    humanXs.push(random(0, windowWidth));
-    humanYs.push(random(windowHeight - 200, windowHeight));
-    humanSizes.push(random(MIN_SIZE, MAX_SIZE));
-    humanColors.push(color(random(0,155), random(155,255), 0, 200));
+    initializeHuman(i);
   }
 }
 
@@ -64,4 +57,18 @@ function drawHumans() {
     fill(humanColors[i]);
     ellipse(humanXs[i], humanYs[i], humanSizes[i], humanSizes[i]);
   }
+}
+
+function initializeZombie(index) {
+    zombieXs[index] = (random( 0, windowWidth));
+    zombieYs[index] = (random(0,200));
+    zombieSizes[index] = (random(MIN_SIZE, MAX_SIZE));
+    zombieColors[index] = (color(random(50,255), random(50,255), random(50, 255), 150));
+}
+
+function initializeHuman(index) {
+    humanXs[index] = (random(0, windowWidth));
+    humanYs[index] = (random(windowHeight - 200, windowHeight));
+    humanSizes[index] = (random(MIN_SIZE, MAX_SIZE));
+    humanColors[index] = (color(random(0,155), random(155,255), 0, 200));
 }
