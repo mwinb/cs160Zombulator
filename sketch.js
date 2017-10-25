@@ -25,6 +25,8 @@ function draw() {
   noStroke();
   drawZombies();
   drawHumans();
+  moveHumans();
+  moveZombies();
 }
 
 
@@ -42,20 +44,32 @@ function initializeZombie(index) {
     x: random(0, windowWidth),
     y: random(0, 200),
     size: random(MIN_SIZE, MAX_SIZE),
-    color: color(random(100, 255), random(50, 150), random(50, 150), 150)
+    color: color(random(100, 255), random(50, 150), random(50, 150), 150),
+    speed: random(.5,1)
   };
 }
 
 function drawZombies() {
   for (var i = 0; i < NUMBER_OF_ZOMBIES; ++i) {
-    drawZombie(i);
+    drawZombie(zombies[i]);
   }
 }
 
-function drawZombie(index) {
-  var zombie = zombies[index];
+function drawZombie(zombie) {
   fill(zombie.color);
   ellipse(zombie.x, zombie.y, zombie.size, zombie.size);
+}
+
+function moveZombies() {
+    for (var i = 0; i < NUMBER_OF_ZOMBIES; ++i) {
+        moveZombie(zombies[i]);
+    }
+}
+
+function moveZombie(zombie) {
+    zombie.y += zombie.speed;
+    zombie.y += random(-1, 1);
+    zombie.x += random(-2,2);
 }
 
 
@@ -73,18 +87,31 @@ function initializeHuman(index) {
       x: random(0, windowWidth),
       y: random(windowHeight - 200, windowHeight),
       size: random(MIN_SIZE, MAX_SIZE),
-      color: color(random(50, 150), random(50, 150), random(150, 255), 150)
+      color: color(random(50, 150), random(50, 150), random(150, 255), 150),
+      speed: random(.5,1)
   };
 }
 
 function drawHumans() {
   for (var i = 0; i < NUMBER_OF_HUMANS; ++i) {
-    drawHuman(i);
+    drawHuman(humans[i]);
   }
 }
 
-function drawHuman(index) {
-  var human = humans[index];
+function drawHuman(human) {
   fill(human.color);
   ellipse(human.x, human.y, human.size, human.size);
 }
+
+function moveHumans() {
+    for (var i = 0; i < NUMBER_OF_HUMANS; ++ i) {
+        moveHuman(humans[i]);
+    }
+}
+
+function moveHuman(human) {
+    human.y -= human.speed;
+    human.x += random(-2,2);
+    human.y -= random(-1,1);
+}
+    
