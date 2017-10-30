@@ -1,5 +1,5 @@
 // http://tinyurl.com/cs160ex15
-// Zombulator by YOUR NAME
+// Zombulator by MICHAEL WINBERRY
 // CS 160 Exercise 15: Objects
 
 var backgroundColor;
