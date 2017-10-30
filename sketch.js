@@ -9,9 +9,9 @@ const MAX_SIZE = 50;
 const NUMBER_OF_ZOMBIES = 100;
 const NUMBER_OF_HUMANS = 100;
 
-var zombies;
+var zombies = [];
 
-var humans;
+var humans = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -33,19 +33,22 @@ function draw() {
 // Zombies. Raaahh!
 
 function initializeZombies() {
-  zombies = [];
   for (var i = 0; i < NUMBER_OF_ZOMBIES; ++i) {
-    initializeZombie(i);
+    zombies[i] = initializeZombie();
   }
 }
 
 function initializeZombie(index) {
-  zombies[index] = {
+  return {
     x: random(0, windowWidth),
     y: random(0, 200),
     size: random(MIN_SIZE, MAX_SIZE),
     color: color(random(100, 255), random(50, 150), random(50, 150), 150),
-    speed: random(.5,1)
+    speed: random(.5, 1),
+    draw: function () {
+    },
+    move: function () {
+    }
   };
 }
 
