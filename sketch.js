@@ -1,6 +1,6 @@
-// http://tinyurl.com/cs160ex15
-// Zombulator by MICHAEL WINBERRY
-// CS 160 Exercise 15: Objects
+// http://tinyurl.com/cs160ex19
+// Zombulator by Michael Winberry
+// CS 160 Exercise 19: Polymorphism
 
 var backgroundColor;
 
@@ -24,9 +24,9 @@ function draw() {
   background(backgroundColor);
   noStroke();
   drawZombies();
+  moveZombies();
   drawHumans();
   moveHumans();
-  moveZombies();
 }
 
 
@@ -43,17 +43,24 @@ function initializeZombie() {
   return {
     x: random(0, windowWidth),
     y: random(0, 200),
+    speed: random(0.25, 3),
     size: random(MIN_SIZE, MAX_SIZE),
     color: color(random(100, 255), random(50, 150), random(50, 150), 150),
-    speed: random(.5, 1),
-    draw: function () {
+    move: function() {
+      var direction = random(0, 100);
+      if (direction < 20) {
+        this.x += this.speed;
+      } else if (direction < 40) {
+        this.x -= this.speed;
+      } else if (direction < 60) {
+        this.y -= this.speed;
+      } else {
+        this.y += this.speed;
+      }
+    },
+    draw: function() {
       fill(this.color);
       ellipse(this.x, this.y, this.size, this.size);
-    },
-    move: function () {
-      this.y += this.speed;
-      this.y += random(-1, 1);
-      this.x += random(-2,2);
     }
   };
 }
@@ -64,13 +71,11 @@ function drawZombies() {
   }
 }
 
-
 function moveZombies() {
   for (var i = 0; i < NUMBER_OF_ZOMBIES; ++i) {
     zombies[i].move();
   }
 }
-
 
 // Humans. Mmmm brains!
 
@@ -81,24 +86,30 @@ function initializeHumans() {
   }
 }
 
-function initializeHuman() {
+function initializeHuman(index) {
   return {
     x: random(0, windowWidth),
     y: random(windowHeight - 200, windowHeight),
+    speed: random(0.25, 3),
     size: random(MIN_SIZE, MAX_SIZE),
     color: color(random(50, 150), random(50, 150), random(150, 255), 150),
-    speed: random(.5,1),
     draw: function() {
       fill(this.color);
       ellipse(this.x, this.y, this.size, this.size);
-      
     },
     move: function() {
-      this.y -= this.speed;
-      this.x += random(-2,2);
-      this.y -= random(-1,1);
+      var direction = random(0, 100);
+      if (direction < 20) {
+        this.x += this.speed;
+      } else if (direction < 40) {
+        this.x -= this.speed;
+      } else if (direction < 60) {
+        this.y += this.speed;
+      } else {
+        this.y -= this.speed;
+      }
     }
-  };
+  }
 }
 
 function drawHumans() {
@@ -107,11 +118,8 @@ function drawHumans() {
   }
 }
 
-
 function moveHumans() {
-  for (var i = 0; i < NUMBER_OF_HUMANS; ++ i) {
+  for (var i = 0; i < NUMBER_OF_HUMANS; ++i) {
     humans[i].move();
   }
 }
-
-
