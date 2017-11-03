@@ -146,7 +146,7 @@ function checkCollision () {
         
         var roll = random(0,100);
         
-        if (roll < 25) {
+        if (roll < 35) {
           
           if(attacker.type == "Zombie") {
             attacker.alive = false;
@@ -157,7 +157,7 @@ function checkCollision () {
             --zombieCount;
           }
 
-        } else if (roll < 45) {
+        } else if (roll < 65) {
           
           if (attacker.type == "Human") {
             turnHuman(i)
