@@ -71,18 +71,19 @@ function initializeZombie() {
     size: random(MIN_SIZE, MAX_SIZE),
     color: color(random(66, 226), 244, random(66, 146), 150),
     move: function() {
-      var direction = random(0, 100);
-      if (direction < 20) {
-        this.x += this.speed;
-      } else if (direction < 40) {
-        this.x -= this.speed;
-      } else if (direction < 60) {
-        this.y -= this.speed;
-      } else {
-        this.y += this.speed;
-      }
+      this.y += this.speed;
+      this.x -= random(-2,2);
+      this.y += random(-1,1)
     },
     draw: function() {
+      if (this.x + this.size/2 > windowWidth) {
+        this.x = this.x - this.size/2;
+      }
+
+      if (this.x + this.size/2 < 0 ) {
+        this.x = this.x + this.size/2;
+      }
+
       if (this.alive == true) {
         fill(this.color);
         ellipse(this.x, this.y, this.size, this.size);
@@ -107,18 +108,18 @@ function initializeHuman() {
     size: random(MIN_SIZE, MAX_SIZE),
     color: color(random(50, 150), random(50, 150), random(150, 255), 150),
     move: function() {
-        var direction = random(0, 100);
-        if (direction < 20) {
-          this.x += this.speed;
-        } else if (direction < 40) {
-          this.x -= this.speed;
-        } else if (direction < 60) {
-          this.y += this.speed;
-        } else {
-          this.y -= this.speed;
-        }
-      },
+      this.y -= this.speed;
+      this.x += random(-2,2);
+      this.y -= random(-1,1)
+    },
     draw: function() {
+      if (this.x + this.size/2 > windowWidth) {
+        this.x = this.x - this.size/2;
+      }
+
+      if (this.x + this.size/2 < 0 ) {
+        this.x = this.x + this.size/2;
+      }
       if (this.alive == true) {
           fill(this.color);
           ellipse(this.x, this.y, this.size, this.size);
@@ -136,23 +137,31 @@ function initializeHuman() {
 function checkCollision () {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
     var attacker = population[i];
+    
     for (var j = i+1; j < POPULATION_SIZE; ++j) {
       var victim = population[j];
+      
       if ( attacker.type != victim.type && attacker.isTouching(victim) == true && 
         attacker.alive == true && victim.alive == true) {
+        
         var roll = random(0,100);
+        
         if (roll < 25) {
+          
           if(attacker.type == "Zombie") {
             attacker.alive = false;
             zombieCount--
+          
           } else if (victim.type == "Zombie") {
             victim.alive = false;
             zombieCount--
           }
         } else if (roll > 25) {
+          
           if(attacker.type == "Human") {
             attacker.alive = false;
             humanCount--
+          
           } else if (victim.type == "Human" ) {
             victim.alive = false;
             humanCount--
