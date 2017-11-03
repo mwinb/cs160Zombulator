@@ -150,25 +150,44 @@ function checkCollision () {
           
           if(attacker.type == "Zombie") {
             attacker.alive = false;
-            zombieCount--
+            --zombieCount;
           
-          } else if (victim.type == "Zombie") {
+          } else {
             victim.alive = false;
-            zombieCount--
+            --zombieCount;
           }
-        } else if (roll > 25) {
+
+        } else if (roll < 45) {
+          
+          if (attacker.type == "Human") {
+            turnHuman(i)
+            --humanCount;
+            ++zombieCount;
+          
+          } else {
+            turnHuman(j);
+            --humanCount;
+            ++zombieCount;
+          }
+
+        } else if (roll < 100) 
           
           if(attacker.type == "Human") {
             attacker.alive = false;
-            humanCount--
+            --humanCount;
           
-          } else if (victim.type == "Human" ) {
+          } else {
             victim.alive = false;
-            humanCount--
+            --humanCount;
           }
         }
-        print("FIGHT!");
-      }
     }
   }
+}
+
+function turnHuman(humanIndex) {
+  var tempZombie = initializeZombie();
+  tempZombie.x = population[humanIndex].x;
+  tempZombie.y = population[humanIndex].y;
+  population[humanIndex] = tempZombie;
 }
