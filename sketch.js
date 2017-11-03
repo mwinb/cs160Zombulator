@@ -146,7 +146,7 @@ function checkCollision () {
         
         var roll = random(0,100);
         
-        if (roll < 35) {
+        if (roll < 45) {
           
           if(attacker.type == "Zombie") {
             attacker.alive = false;
