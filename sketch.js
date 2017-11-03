@@ -4,7 +4,7 @@
 
 var backgroundColor;
 
-const MIN_SIZE = 5;
+const MIN_SIZE = 25;
 const MAX_SIZE = 50;
 const POPULATION_SIZE = 500;
 
