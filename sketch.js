@@ -52,9 +52,10 @@ function drawPopulationCounts() {
 
 function drawPopulation() {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
-    if(population[i].alive == true) {
-      population[i].draw();
+  	if (population[i].alive == true) {
+    	population[i].draw();
     }
+    
   }
   if (deadPop.length > 0) {
     for (var i = 0; i < deadPop.length; ++i) {
@@ -103,9 +104,10 @@ function initializeZombie() {
       if (this.x + this.size/2 < 0 ) {
         this.x = this.x + this.size;
       }
-
+      
       fill(this.color);
       ellipse(this.x, this.y, this.size, this.size);
+      
       
     },
     isTouching: function(food) {
@@ -147,6 +149,7 @@ function initializeHuman() {
 
       fill(this.color);
       ellipse(this.x, this.y, this.size, this.size);
+  	
 
     },
     isTouching: function(zombie) {
@@ -234,7 +237,7 @@ function checkCollision () {
           
           } else {
             turnDead(j);
-            attacker.alive = false;
+            victim.alive = false;
             --humanCount;
           }
         }
