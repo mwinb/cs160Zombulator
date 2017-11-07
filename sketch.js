@@ -149,7 +149,7 @@ function initializeDeath() {
     },
     x: 0,
     y: 0,
-    speed: random(1,3),
+    speed: random(2,5),
     size: random(3,5),
     color: color(0,0,0),
     move: function() {
