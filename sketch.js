@@ -9,6 +9,7 @@ const MAX_SIZE = 50;
 const POPULATION_SIZE = 500;
 
 var population = [];
+var deadPop = [];
 
 var zombieCount = 0;
 var humanCount = 0;
@@ -51,13 +52,27 @@ function drawPopulationCounts() {
 
 function drawPopulation() {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
-    population[i].draw();
+    if(population[i].alive == true) {
+      population[i].draw();
+    }
+  }
+  if (deadPop.length > 0) {
+    for (var i = 0; i < deadPop.length; ++i) {
+      deadPop[i].draw();
+    }
   }
 }
 
 function movePopulation() {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
-    population[i].move();
+    if(population[i].alive == true) {
+      population[i].move();
+    }
+  }
+  if (deadPop.length > 0) {
+    for (var i = 0; i < deadPop.length; ++i) {
+      deadPop[i].move();
+    }
   }
 }
 
@@ -66,6 +81,7 @@ function initializeZombie() {
     type: function() {
       return "Zombie"
     },
+    alive: true,
     x: random(0, windowWidth),
     y: random(0, 200),
     speed: random(0.25, 3),
@@ -88,7 +104,6 @@ function initializeZombie() {
         this.x = this.x + this.size;
       }
 
- 
       fill(this.color);
       ellipse(this.x, this.y, this.size, this.size);
       
@@ -107,6 +122,7 @@ function initializeHuman() {
     type: function() {
       return "Human"
     },
+    alive: true,
     x: random(0, windowWidth),
     y: random(windowHeight - 200, windowHeight),
     speed: random(0.25, 3),
@@ -179,8 +195,8 @@ function checkCollision () {
     for (var j = i+1; j < POPULATION_SIZE; ++j) {
       var victim = population[j];
       
-      if ( attacker.type() != victim.type() && attacker.type() != "Dead" && 
-        victim.type() != "Dead" && attacker.isTouching(victim) == true) {
+      if ( attacker.type() != victim.type() && attacker.alive == true && 
+        victim.alive == true && attacker.isTouching(victim) == true) {
         
         var roll = random(0,100);
         
@@ -188,10 +204,12 @@ function checkCollision () {
           
           if(attacker.type() == "Zombie") {
             turnDead(i);
+            attacker.alive = false;
             --zombieCount;
           
           } else {
             turnDead(j);
+            victim.alive = false;
             --zombieCount;
           }
 
@@ -211,10 +229,12 @@ function checkCollision () {
               } 
           } else if (attacker.type() == "Human") {
             turnDead(i);
+            attacker.alive = false;
             --humanCount;
           
           } else {
             turnDead(j);
+            attacker.alive = false;
             --humanCount;
           }
         }
@@ -231,9 +251,11 @@ function turnHuman(humanIndex) {
 }
 
 function turnDead(popIndex) {
-  var tempDead = initializeDeath();
-  tempDead.x = population[popIndex].x;
-  tempDead.y = population[popIndex].y;
-  tempDead.color = population[popIndex].color;
-  population[popIndex] = tempDead;
+  for (var i = 0; i < 5; ++i) {
+    var tempDead = initializeDeath();
+    tempDead.x = population[popIndex].x;
+    tempDead.y = population[popIndex].y;
+    tempDead.color = population[popIndex].color;
+    deadPop.push(tempDead);
+  }
 }
