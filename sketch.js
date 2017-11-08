@@ -79,8 +79,8 @@ function movePopulation() {
 
 function initializeHuman() {
   var humanType = "Human";
-  var humanX = random(0, windowWidth);
-  var humanY = random(windowHeight-200, windowHeight);
+  var humanX = random(50, windowWidth-50);
+  var humanY = random(windowHeight-200, windowHeight-50);
   var humanColor = color(random(50, 150), random(50, 150), random(150, 255), 150);
   return initializeHumanoid(humanType,humanX, humanY, humanColor);
 }
@@ -88,8 +88,8 @@ function initializeHuman() {
 
 function initializeZombie() {
   var zombieType = "Zombie";
-  var zombieX = random(0, windowWidth);
-  var zombieY = random(0,200);
+  var zombieX = random(50, windowWidth-50);
+  var zombieY = random(50,200);
   var zombieColor = color(random(66, 226), 244, random(66, 146), 150);
   return initializeHumanoid(zombieType, zombieX,  zombieY, zombieColor);
 }
@@ -102,50 +102,31 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
     y : humanoidY,
     color: humanoidColor,
     size: random(MIN_SIZE, MAX_SIZE),
-    speed: random(0.25, 4),
+    speed: function() {
+      return random(0.25, 3)
+    },
     move: function () {
       if (this.type == "Human") {
-        this.y -= this.speed;
+        this.y -= this.speed();
         this.x += random(-2,2);
-        this.y -= random(-1,1);
+        this.y += random(-2,2);
       } else {
-        this.y += this.speed;
-        this.x -= random(-2,2);
+        this.y += this.speed();
+        this.x += random(-2,2);
         this.y += random(-2,2);
       }
     },
     draw: function() {
-      if (this.type == "Human") {
-        if (this.y <= 0 || this.y >= windowHeight) {
-          this.speed = -this.speed;
-        }
-        if (this.x + this.size/2 > windowWidth) {
-          this.x = this.x - this.size;
-        }
-
-        if (this.x + this.size/2 < 0 ) {
-          this.x = this.x + this.size;
-        }
-
-        fill(this.color);
-        ellipse(this.x, this.y, this.size, this.size);
-
-      } else {
-        if (this.y <= 0 || this.y >= windowHeight) {
-          this.speed = -this.speed;
-        }
-        if (this.x + this.size/2 > windowWidth) {
-          this.x = this.x - this.size;
-        }
-
-        if (this.x + this.size/2 < 0 ) {
-          this.x = this.x + this.size;
-        }
-
-        fill(this.color);
-        ellipse(this.x, this.y, this.size, this.size);
-
+      if (this.x + this.size > windowWidth) {
+        this.x = this.x - this.size;
       }
+
+      if (this.x + this.size < 0 ) {
+        this.x = this.x + this.size;
+      }
+
+      fill(this.color);
+      ellipse(this.x, this.y, this.size, this.size);
     },
     isTouching: function(victim) {
       var distance = dist(this.x, this.y, victim.x, victim.y);
@@ -165,27 +146,31 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
     turnDead: function () {
       this.alive = false;
       for (var i = 0; i < 5; ++i) {
-        var tempDead = initializeDeath(this.x, this.y, this.color);
+        var tempDead = initializeDeath(this.type, this.x, this.y, this.color);
         deadPop.push(tempDead);
       }
     }
   }
 }
 
-function initializeDeath(deceasedX, deceasedY, deceasedColor) {
+function initializeDeath(deceasedType, deceasedX, deceasedY, deceasedColor) {
   return {
-    type: function () {
-      return "Dead";
-    },
+    type: deceasedType,
     x: deceasedX,
     y: deceasedY,
     speed: random(2,5),
     size: random(3,5),
     color: deceasedColor,
     move: function() {
-      this.y += this.speed;
-      this.x -= random(-2,2);
-      this.y += random(-2,2)
+      if(this.type == "Human") {
+        this.y += this.speed;
+        this.x += random(-2,2);
+        this.y += random(-2,2)
+      } else {
+        this.y -= this.speed;
+        this.x += random(-2,2);
+        this.y += random(-2,2)
+      }
     },
     draw: function () {
       if (this.x + this.size/2 > windowWidth) {
@@ -215,37 +200,46 @@ function checkCollision () {
         print("Fight!");
         
         var roll = random(0,100);
+
         
         if (roll < 50) {
-          
-          if(attacker.type == "Zombie") {
+          if (attacker.type == "Zombie") {
             attacker.turnDead(); 
             --zombieCount;
-          
-          } else {
+          } 
+          else {
             victim.turnDead();
-            --zombieCount;
-          }
+           --zombieCount;
+         }
+       } 
+       else {
 
-        } else {
-
-          if (roll < 60) {
+          if (roll < 65) {
           
             if (attacker.type == "Human") {
               attacker.turnType();
               --humanCount;
               ++zombieCount;
 
-            } else {
+            } 
+            else {
               victim.turnType();
               --humanCount;
               ++zombieCount;
               } 
-          } else if (attacker.type == "Human") {
+          } 
+          else if (roll < 70) {
+            attacker.turnDead();
+            victim.turnDead();
+            --zombieCount;
+            --humanCount;
+          } 
+          else if (attacker.type == "Human") {
             attacker.turnDead();
             --humanCount;
           
-          } else {
+          } 
+          else {
             victim.turnDead();
             --humanCount;
           }
