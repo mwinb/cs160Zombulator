@@ -51,7 +51,8 @@ function drawPopulationCounts() {
   text("Zombies: " + zombieCount, width / 2, 100);
   text("Humans: " + humanCount, width / 2, height - 100);
   textSize(30);
-  text("Click a Zombie (green)" + "\n" + " to help the Humans Survive", width / 2, height - 50);
+  text("Click a Zombie (green) to " + "\n" +
+    "Administer Prototype Andidote", width / 2, height - 50);
 }
 
 function drawPopulation() {
@@ -144,7 +145,7 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
         this.color = color(random(66, 226), 244, random(66, 146), 150);
       } else {
         this.type = "Human";
-        this.color = color(random(66, 226), 244, random(66, 146), 150);
+        this.color = color(random(50, 150), random(50, 150), random(150, 255), 150);
       }
     },
     turnDead: function () {
@@ -166,9 +167,11 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
       if (!this.isHuman() && this.alive) {
         var distance = dist(this.x, this.y, mouseX, mouseY);
         var radius = this.size/2;
+        var roll = random(0, 100);
         if(distance < radius) {
-          this.turnDead();
+          this.turnType();
           --zombieCount;
+          ++humanCount;
         }
       }
     } 
