@@ -14,6 +14,7 @@ var deadPop = [];
 var zombieCount = 0;
 var humanCount = 0;
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   backgroundColor = color(0, 0, 0);
@@ -46,13 +47,16 @@ function drawPopulationCounts() {
   stroke(0);
   textSize(50);
   textAlign(CENTER);
+  fill(173, 15, 15,150);
   text("Zombies: " + zombieCount, width / 2, 100);
   text("Humans: " + humanCount, width / 2, height - 100);
+  textSize(30);
+  text("Click a Zombie (green)" + "\n" + " to help the Humans Survive", width / 2, height - 50);
 }
 
 function drawPopulation() {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
-    if(population[i].alive == true) {
+    if(population[i].alive) {
       population[i].draw();
     }
   }
@@ -65,7 +69,7 @@ function drawPopulation() {
 
 function movePopulation() {
   for (var i = 0; i < POPULATION_SIZE; ++i) {
-    if(population[i].alive == true) {
+    if(population[i].alive) {
       population[i].move();
     }
   }
@@ -102,8 +106,8 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
     y : humanoidY,
     color: humanoidColor,
     size: random(MIN_SIZE, MAX_SIZE),
-    speed: function() {
-      return random(0.25, 3)
+    speed: function () {
+      return random(.25,3);
     },
     move: function () {
       if (this.type == "Human") {
@@ -149,7 +153,25 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor) {
         var tempDead = initializeDeath(this.type, this.x, this.y, this.color);
         deadPop.push(tempDead);
       }
-    }
+    },
+    isHuman: function () {
+      if (this.type == "Human") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    clicked: function () {
+      if (!this.isHuman() && this.alive) {
+        var distance = dist(this.x, this.y, mouseX, mouseY);
+        var radius = this.size/2;
+        if(distance < radius) {
+          this.turnDead();
+          --zombieCount;
+        }
+      }
+    } 
   }
 }
 
@@ -194,16 +216,32 @@ function checkCollision () {
     for (var victimIndex = attackerIndex+1; victimIndex < POPULATION_SIZE; ++victimIndex) {
       var victim = population[victimIndex];
       
-      if ( attacker.type != victim.type && attacker.alive == true && 
-        victim.alive == true && attacker.isTouching(victim) == true) {
+      if ( attacker.type != victim.type && attacker.alive && 
+        victim.alive && attacker.isTouching(victim)) {
 
         print("Fight!");
+
         
         var roll = random(0,100);
 
+        if(roll < 20) {
+          if(victim.isHuman()) {
+            victim.y += random(15,30);
+            victim.x += random(-30,-15);
+            attacker.y -= random(15,30);
+            attacker.x += random(15,30);
+          } else {
+            victim.y -= random(15,30);
+            victim.x += random(-30, -15);
+            attacker.y += random(15,30);
+            attacker.x += random(15,30);
+
+          }
+        }
+
         
-        if (roll < 50) {
-          if (attacker.type == "Zombie") {
+        else if (roll < 40) {
+          if (!attacker.isHuman()) {
             attacker.turnDead(); 
             --zombieCount;
           } 
@@ -214,9 +252,9 @@ function checkCollision () {
        } 
        else {
 
-          if (roll < 65) {
+          if (roll < 60) {
           
-            if (attacker.type == "Human") {
+            if (attacker.isHuman()) {
               attacker.turnType();
               --humanCount;
               ++zombieCount;
@@ -228,13 +266,13 @@ function checkCollision () {
               ++zombieCount;
               } 
           } 
-          else if (roll < 70) {
+          else if (roll < 80) {
             attacker.turnDead();
             victim.turnDead();
             --zombieCount;
             --humanCount;
           } 
-          else if (attacker.type == "Human") {
+          else if (attacker.isHuman()) {
             attacker.turnDead();
             --humanCount;
           
@@ -246,6 +284,12 @@ function checkCollision () {
         }
       }
     }
+  }
+}
+
+function mousePressed() {
+  for(var i = 0; i < POPULATION_SIZE; ++i) {
+    population[i].clicked();
   }
 }
 
