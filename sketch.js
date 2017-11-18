@@ -219,7 +219,30 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 					++humanCount;
 				}
 			}
-		} 
+		},
+
+		bounce: function () 
+		{
+			if (this.isHuman()) 
+			{
+				this.y += random(15,30);
+				this.x += random(-30,30);
+			}
+			else 
+			{
+				this.y -= random(15,30);
+				this.x -= random(-30, 30);
+			}
+		},
+
+		grow: function () 
+		{
+			if (!this.isHuman())
+			{
+				this.size += random(2,10);
+			}
+		}
+
 	}
 }
 
@@ -287,118 +310,83 @@ function checkCollision () {
 						decrementType(victim);
 						victim.turnType();
 						incrementType(victim);
-
 					} 
 					else 
 					{
-						victim.turnDead();
 						decrementType(victim);
-
+						victim.turnDead();
+						attacker.grow()
 					}
-				} 
-				else if (sizeRatio <= .9)
+				}
+				else if (sizeRatio < .9) 
 				{
-					if(testTurned()) 
+					if (testTurned())
 					{
 						decrementType(attacker);
 						attacker.turnType();
 						incrementType(attacker);
-					} 
+					}
 					else 
 					{
 						decrementType(attacker);
 						attacker.turnDead();
+						victim.grow();
 					}
 				} 
 				else 
 				{
-					var roll = random(0,60);
+					var roll = random(0,40);
 
 					if(roll < 10) 
 					{
 
-						if(victim.isHuman()) 
+						attacker.bounce();
+						victim.bounce();
+						roll = random();
+						if (roll > .5) 
 						{
-							victim.y += random(15,30);
-							victim.x += random(-30,-15);
-							attacker.y -= random(15,30);
-							attacker.x += random(15,30);
-						}
-						else 
-						{
-							victim.y -= random(15,30);
-							victim.x += random(-30, -15);
-							attacker.y += random(15,30);
-							attacker.x += random(15,30);
-						}
-					}
-					else if (roll < 20) 
-					{
-
-						if (!attacker.isHuman()) 
-						{
-							attacker.turnDead(); 
-							--zombieCount;
+							attacker.grow();
 						} 
 						else 
 						{
-							victim.turnDead();
-							--zombieCount;
+							victim.grow();
 						}
 					} 
-					else 
+					else if (roll < 20) 
 					{
-						if (roll < 30) {
-
-							if (attacker.isHuman()) 
-							{
-								attacker.turnType();
-								--humanCount;
-								++zombieCount;
-							} 
-							else 
-							{
-								victim.turnType();
-								--humanCount;
-								++zombieCount;
-							} 
-						} 
-						else if (roll < 40) 
+						decrementType(victim);
+						victim.turnDead();
+						attacker.grow();
+					}
+					else if (roll < 30) 
+					{
+						if ((attacker.isHuman() && roll < 25) || !attacker.isHuman()) 
 						{
+							decrementType(attacker);
 							attacker.turnDead();
+							decrementType(victim);
 							victim.turnDead();
-							--zombieCount;
-							--humanCount;
-						} 
-						else if (roll < 50) 
-						{
-							if (attacker.isHuman())
-							{
-								attacker.turnDead();
-								--humanCount;
-							}
-							else 
-							{
-								victim.turnDead();
-								--humanCount;
-							}
-						} 
+						}
 						else 
 						{
-							if (!attacker.isHuman())
+							roll = random();
+							attacker.bounce();
+							victim.bounce();
+							if (roll < .5) 
 							{
-								decrementType(attacker);
-								attacker.turnType();
-								incrementType(attacker)
-
-							} 
+								attacker.grow();
+							}
 							else 
 							{
-								decrementType(victim);
-								attacker.turnType();
-								incrementType(victim);
+								victim.grow();
 							}
-						}				
+						}
+					}
+					else 
+					{
+						decrementType(victim);
+						victim.turnType();
+						incrementType(attacker);
 					} 
 				}
 			}
