@@ -241,6 +241,10 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 			{
 				this.size += random(2,10);
 			}
+			else
+			{
+				this.size += random(3,5);
+			}
 		}
 
 	}
