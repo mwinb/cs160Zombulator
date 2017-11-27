@@ -17,7 +17,6 @@ var humanCount = 0;
 
 
 function preload() {
-	soundFormats('mp3', 'ogg');
 	biteSound = loadSound('biteSound.mp3');
 }
 function setup() 
