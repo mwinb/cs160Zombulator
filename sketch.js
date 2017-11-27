@@ -6,6 +6,10 @@ var backgroundColor;
 var biteSound;
 var gruntSound;
 var backgroundMusic;
+var resetButton;
+var muteButton;
+var muted = false;
+
 const MIN_SIZE = 25;
 const MAX_SIZE = 50;
 const POPULATION_SIZE = 500;
@@ -15,6 +19,7 @@ var deadPop = [];
 
 var zombieCount = 0;
 var humanCount = 0;
+
 function preload() 
 {
 	biteSound = loadSound('biteSound.mp3');
@@ -26,23 +31,45 @@ function setup()
 {
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
-	initializePopulation();
+	resetSketch()
+	backgroundMusic.setVolume(1);
+	backgroundMusic.play();
 
 }
 
+
 function draw() 
 {
-	if(!backgroundMusic.isPlaying()) 
-	{
-		backgroundMusic.setVolume(1.0);
-		backgroundMusic.play();
-	}
 	background(backgroundColor);
+	drawButtons();
 	noStroke();
 	drawPopulation();
 	movePopulation();
 	checkCollision();
 	drawPopulationCounts();
+}
+
+function resetSketch() 
+{
+	zombieCount = 0;
+	humanCount = 0;
+	initializePopulation();
+	backgroundMusic.stop();
+	backgroundMusic.play();
+}
+
+function mute() 
+{
+	if(muted) 
+	{
+		masterVolume(1.0);
+		muted = false;
+	}
+	else
+	{
+		masterVolume(0);
+		muted = true;
+	}
 }
 
 function initializePopulation() 
@@ -63,8 +90,24 @@ function initializePopulation()
 	}
 }
 
+function drawButtons() 
+{
+	resetButton = createButton("Reset");
+	resetButton.style("background-color", color(66, 241, 244,150));
+	resetButton.style("border", 'none');
+	resetButton.position(windowWidth/2-25,25);
+	resetButton.mousePressed(resetSketch);
+	
+	muteButton = createButton("Mute");
+	muteButton.style("background-color", color(66, 241, 244,150));
+	muteButton.style("border", 'none');
+	muteButton.position(windowWidth/2+25,25);
+	muteButton.mousePressed(mute);
+}
+
 function drawPopulationCounts() 
 {
+
 	stroke(0);
 	textSize(50);
 	textAlign(CENTER);
