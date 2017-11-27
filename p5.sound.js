@@ -2431,11 +2431,11 @@ fft = function () {
    *  audio frequencies</a> within a waveform.</p>
    *
    *  <p>Once instantiated, a p5.FFT object can return an array based on
-   *  two types of analyses: <br> • <code>FFT.waveform()</code> computes
+   *  two types of analyses: <br> â€¢ <code>FFT.waveform()</code> computes
    *  amplitude values along the time domain. The array indices correspond
    *  to samples across a brief moment in time. Each value represents
    *  amplitude of the waveform at that sample of time.<br>
-   *  • <code>FFT.analyze() </code> computes amplitude values along the
+   *  â€¢ <code>FFT.analyze() </code> computes amplitude values along the
    *  frequency domain. The array indices correspond to frequencies (i.e.
    *  pitches), from the lowest to the highest that humans can hear. Each
    *  value represents amplitude at that slice of the frequency spectrum.
@@ -5281,7 +5281,7 @@ env = function () {
    *  of an object, a series of fades referred to as Attack, Decay,
    *  Sustain and Release (
    *  <a href="https://upload.wikimedia.org/wikipedia/commons/e/ea/ADSR_parameter.svg">ADSR</a>
-   *  ). Envelopes can also control other Web Audio Parameters—for example, a p5.Env can
+   *  ). Envelopes can also control other Web Audio Parametersâ€”for example, a p5.Env can
    *  control an Oscillator's frequency like this: <code>osc.freq(env)</code>.</p>
    *  <p>Use <code><a href="#/p5.Env/setRange">setRange</a></code> to change the attack/release level.
    *  Use <code><a href="#/p5.Env/setADSR">setADSR</a></code> to change attackTime, decayTime, sustainPercent and releaseTime.</p>
@@ -6506,7 +6506,7 @@ audioin = function () {
    *
    *  Certain browsers limit access to the user's microphone. For example,
    *  Chrome only allows access from localhost and over https. For this reason,
-   *  you may want to include an errorCallback—a function that is called in case
+   *  you may want to include an errorCallbackâ€”a function that is called in case
    *  the browser won't provide mic access.
    *
    *  @method start
@@ -9806,7 +9806,7 @@ looper = function () {
    *
    *  <p>The first parameter is a name so that the phrase can be
    *  modified or deleted later. The callback is a a function that
-   *  this phrase will call at every step—for example it might be
+   *  this phrase will call at every stepâ€”for example it might be
    *  called <code>playNote(value){}</code>. The array determines
    *  which value is passed into the callback at each step of the
    *  phrase. It can be numbers, an object with multiple numbers,
