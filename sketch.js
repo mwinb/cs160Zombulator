@@ -3,6 +3,7 @@
 // CS 160 Exercise 20: Collisions
 
 var backgroundColor;
+var biteSound;
 
 const MIN_SIZE = 25;
 const MAX_SIZE = 50;
@@ -17,6 +18,7 @@ var humanCount = 0;
 
 function setup() 
 {
+	biteSound = loadSound('biteSound.mp3');
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
 	initializePopulation();
@@ -186,6 +188,9 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 
 		turnDead: function () 
 		{
+			if(this.isHuman()) {
+				biteSound.play();
+			}
 			this.alive = false;
 			for (var i = 0; i < 5; ++i) {
 				var tempDead = initializeDeath(this.type, this.x, this.y, this.color);
@@ -239,11 +244,11 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 		{
 			if (!this.isHuman())
 			{
-				this.size += random(2,10);
+				this.size += random(2,5);
 			}
 			else
 			{
-				this.size += random(3,5);
+				this.size += random(1,3);
 			}
 		}
 
@@ -292,7 +297,8 @@ function initializeDeath(deceasedType, deceasedX, deceasedY, deceasedColor)
 	}
 }
 
-function checkCollision () {
+function checkCollision () 
+{
 	for (var attackerIndex = 0; attackerIndex < POPULATION_SIZE; ++attackerIndex)
 	{
 		var attacker = population[attackerIndex];
@@ -399,7 +405,8 @@ function checkCollision () {
 }
 
 
-function testTurned() {
+function testTurned() 
+{
 	var roll = random();
 	if (roll >= .7 ) {
 		return true;
@@ -408,24 +415,30 @@ function testTurned() {
 	}
 }
 
-function decrementType(humanoid) {
-	if (humanoid.type == "Human") {
+function decrementType(humanoid) 
+{
+	if (humanoid.type == "Human") 
+	{
 		--humanCount;
 	} else {
 		--zombieCount
 	}
 }
 
-function incrementType(humanoid) {
-	if(humanoid.type == "Human") {
+function incrementType(humanoid) 
+{
+	if(humanoid.type == "Human") 
+	{
 		++humanCount;
 	} else {
 		++zombieCount;
 	}
 }
 
-function mousePressed() {
-	for(var i = 0; i < POPULATION_SIZE; ++i) {
+function mousePressed() 
+{
+	for(var i = 0; i < POPULATION_SIZE; ++i)
+	{
 		population[i].clicked();
 	}
 }
