@@ -95,13 +95,13 @@ function drawButtons()
 	resetButton = createButton("Reset");
 	resetButton.style("background-color", color(66, 241, 244,150));
 	resetButton.style("border", 'none');
-	resetButton.position(windowWidth/2-25,25);
+	resetButton.position(width/2-25,125);
 	resetButton.mousePressed(resetSketch);
 	
 	muteButton = createButton("Mute");
 	muteButton.style("background-color", color(66, 241, 244,150));
 	muteButton.style("border", 'none');
-	muteButton.position(windowWidth/2+25,25);
+	muteButton.position(width/2+25,125);
 	muteButton.mousePressed(mute);
 }
 
