@@ -4,7 +4,8 @@
 
 var backgroundColor;
 var biteSound;
-
+var gruntSound;
+var backgroundMusic;
 const MIN_SIZE = 25;
 const MAX_SIZE = 50;
 const POPULATION_SIZE = 500;
@@ -14,18 +15,28 @@ var deadPop = [];
 
 var zombieCount = 0;
 var humanCount = 0;
-
+function preload() 
+{
+	biteSound = loadSound('biteSound.mp3');
+	gruntSound = loadSound('gruntSound.mp3');
+	backgroundMusic = loadSound('backgroundMusic.mp3')
+}
 
 function setup() 
 {
-	biteSound = loadSound('biteSound.mp3');
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
 	initializePopulation();
+
 }
 
 function draw() 
 {
+	if(!backgroundMusic.isPlaying()) 
+	{
+		backgroundMusic.setVolume(1.0);
+		backgroundMusic.play();
+	}
 	background(backgroundColor);
 	noStroke();
 	drawPopulation();
@@ -188,8 +199,15 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 
 		turnDead: function () 
 		{
-			if(this.isHuman()) {
+			if(this.isHuman()) 
+			{
+				biteSound.setVolume(.5);
 				biteSound.play();
+			}
+			else
+			{
+				gruntSound.setVolume(.5);
+				gruntSound.play();
 			}
 			this.alive = false;
 			for (var i = 0; i < 5; ++i) {
@@ -242,13 +260,13 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 
 		grow: function () 
 		{
-			if (!this.isHuman())
+			if (this.isHuman())
 			{
 				this.size += random(.5,1);
 			}
 			else
 			{
-				this.size += random(.5,1);
+				this.size += random(1,1.5);
 			}
 		}
 
