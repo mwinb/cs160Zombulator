@@ -16,9 +16,12 @@ var zombieCount = 0;
 var humanCount = 0;
 
 
+function preload() {
+	soundFormats('mp3', 'ogg');
+	biteSound = loadSound('biteSound.mp3');
+}
 function setup() 
 {
-	biteSound = loadSound('biteSound.mp3');
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
 	initializePopulation();
@@ -244,11 +247,11 @@ function initializeHumanoid(humaniodType, humanoidX, humanoidY, humanoidColor)
 		{
 			if (!this.isHuman())
 			{
-				this.size += random(2,5);
+				this.size += random(.5,1);
 			}
 			else
 			{
-				this.size += random(1,3);
+				this.size += random(.5,1);
 			}
 		}
 
