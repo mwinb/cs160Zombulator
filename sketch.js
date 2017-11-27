@@ -16,11 +16,9 @@ var zombieCount = 0;
 var humanCount = 0;
 
 
-function preload() {
-	biteSound = loadSound('biteSound.mp3');
-}
 function setup() 
 {
+	biteSound = loadSound('biteSound.mp3');
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
 	initializePopulation();
