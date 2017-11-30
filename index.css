@@ -1,0 +1,17 @@
+h1 {
+    text-align: center;
+    color: White;
+}
+h3 {
+    text-align: center;
+    color: White;
+}
+body {
+    background-color: black;
+}
+
+#linkMenu {
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
