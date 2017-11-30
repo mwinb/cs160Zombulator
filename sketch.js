@@ -24,7 +24,6 @@ function preload()
 {
 	biteSound = loadSound('biteSound.mp3');
 	gruntSound = loadSound('gruntSound.mp3');
-	backgroundMusic = loadSound('backgroundMusic.mp3')
 }
 
 function setup() 
@@ -32,8 +31,6 @@ function setup()
 	createCanvas(windowWidth, windowHeight);
 	backgroundColor = color(0, 0, 0);
 	resetSketch()
-	backgroundMusic.setVolume(1);
-	backgroundMusic.play();
 
 }
 
@@ -54,8 +51,6 @@ function resetSketch()
 	zombieCount = 0;
 	humanCount = 0;
 	initializePopulation();
-	backgroundMusic.stop();
-	backgroundMusic.play();
 }
 
 function mute() 
